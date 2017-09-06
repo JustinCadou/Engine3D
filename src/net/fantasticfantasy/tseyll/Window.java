@@ -1,4 +1,4 @@
-package net.fantasticfantasy.engine3d;
+package net.fantasticfantasy.tseyll;
 
 import java.nio.ByteBuffer;
 import org.lwjgl.glfw.GLFW;
@@ -36,13 +36,13 @@ public class Window {
 		this.wheight = 480;
 		this.width = monitor.name == 0 ? this.wwidth : monitor.width;
 		this.height = monitor.name == 0 ? this.wheight : monitor.height;
-		this.name = GLFW.glfwCreateWindow(this.width, this.height, "Engine3D Window", monitor.name, 0);
+		this.name = GLFW.glfwCreateWindow(this.width, this.height, "Tseyll Window", monitor.name, 0);
 		int[] qx = new int[1];
 		int[] qy = new int[1];
 		GLFW.glfwGetWindowPos(this.name, qx, qy);
 		this.x = qx[0];
 		this.y = qy[0];
-		this.visible = hints.visible == WindowHints.TRUE ? true : false;
+		this.visible = hints.visible == WindowHints.Boolean.TRUE ? true : false;
 		this.hints = hints;
 	}
 	

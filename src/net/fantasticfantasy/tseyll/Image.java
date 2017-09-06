@@ -1,4 +1,4 @@
-package net.fantasticfantasy.engine3d;
+package net.fantasticfantasy.tseyll;
 
 import java.nio.FloatBuffer;
 import org.lwjgl.BufferUtils;

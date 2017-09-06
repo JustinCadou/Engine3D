@@ -1,4 +1,4 @@
-package net.fantasticfantasy.engine3d.image;
+package net.fantasticfantasy.tseyll.image;
 
 import java.nio.Buffer;
 

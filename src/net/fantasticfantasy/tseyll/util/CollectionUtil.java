@@ -1,4 +1,4 @@
-package net.fantasticfantasy.engine3d.util;
+package net.fantasticfantasy.tseyll.util;
 
 import java.io.PrintStream;
 import java.lang.reflect.Array;

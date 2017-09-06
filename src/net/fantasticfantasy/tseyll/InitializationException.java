@@ -1,4 +1,4 @@
-package net.fantasticfantasy.engine3d;
+package net.fantasticfantasy.tseyll;
 
 /**The <code>InitializationException</code> class represents any
  * error that could have happened during the initialization.

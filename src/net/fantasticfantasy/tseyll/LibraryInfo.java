@@ -1,6 +1,6 @@
-package net.fantasticfantasy.engine3d;
+package net.fantasticfantasy.tseyll;
 
-import net.fantasticfantasy.engine3d.util.CollectionUtil;
+import net.fantasticfantasy.tseyll.util.CollectionUtil;
 
 public class LibraryInfo {
 	
@@ -28,14 +28,30 @@ public class LibraryInfo {
 	
 	public static class Version {
 		
+		/**The {@link Version} major*/
 		public final int major;
+		
+		/**The {@link Version} minor*/
 		public final int minor;
+		
 		public final int revision;
+		private int[] more;
 		
 		public Version(int major, int minor, int revision, int... more) {
 			this.major = major;
 			this.minor = minor;
 			this.revision = revision;
+			this.more = more;
+		}
+		
+		public Integer getSmallerVersionUpdate(int index) {
+			if (index < 0) {
+				throw new IndexOutOfBoundsException("index < 0");
+			} else if (index >= this.more.length) {
+				return null;
+			} else {
+				return this.more[index];
+			}
 		}
 	}
 }

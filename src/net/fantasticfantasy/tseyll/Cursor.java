@@ -1,4 +1,4 @@
-package net.fantasticfantasy.engine3d;
+package net.fantasticfantasy.tseyll;
 
 public class Cursor {
 	

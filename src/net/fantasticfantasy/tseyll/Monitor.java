@@ -1,11 +1,12 @@
-package net.fantasticfantasy.engine3d;
+package net.fantasticfantasy.tseyll;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
-import net.fantasticfantasy.engine3d.util.CollectionUtil;
+
+import net.fantasticfantasy.tseyll.util.CollectionUtil;
 
 /**The <code>Monitor</code> class represents a
  * user monitor.
