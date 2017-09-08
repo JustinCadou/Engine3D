@@ -1,6 +1,5 @@
 package net.fantasticfantasy.tseyll.util;
 
-import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -20,6 +19,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**The <code>CollectionUtil</code> class offers many methods
+ * useful when dealing with the Java Collection Framework and
+ * the Native I/O, such as conversions, storing and loading from
+ * buffers, concatenating and getting non-null elements from
+ * collections that allows them. 
+ */
 public class CollectionUtil {
 	
 	/**Specifies which element is to be returned
@@ -27,12 +32,15 @@ public class CollectionUtil {
 	public static final int ORDER_FIRST = 0,
 							ORDER_LAST = 1;
 	
+	/**@STATIC_MODULE_CLASS*/
+	private CollectionUtil() {}
+	
 	/**Appends the elements contained in src to dest.
 	 * 
 	 * @param <T> The element type of the source and destination
 	 * 
 	 * @param src - The source array
-	 * @param dest - The destination {@link java.util.List List}
+	 * @param dest - The destination {@link List}
 	 */
 	public static <T> void putArrayOnList(T[] src, List<T> dest) {
 		for (int i = 0; i < src.length; i++) {
@@ -47,7 +55,7 @@ public class CollectionUtil {
 	 * @param src - The source array
 	 * @param srcoff - The source elements offset
 	 * @param srcsize - The source element count minus the offset
-	 * @param dest - The destination {@link java.util.List List}
+	 * @param dest - The destination {@link List}
 	 */
 	public static <T> void putArrayOnList(T[] src, int srcoff, int srcsize, List<T> dest) {
 		for (int i = srcoff; i < srcsize; i++) {
@@ -60,7 +68,7 @@ public class CollectionUtil {
 	 * @param <T> The element type of the source and destination
 	 * 
 	 * @param src - The source array
-	 * @param dest - The destination {@link java.util.Set Set}
+	 * @param dest - The destination {@link Set}
 	 */
 	public static <T> void putArrayOnSet(T[] src, Set<T> dest) {
 		for (int i = 0; i < src.length; i++) {
@@ -75,7 +83,7 @@ public class CollectionUtil {
 	 * @param src - The source array
 	 * @param srcoff - The source elements offset
 	 * @param srcsize - The source element count minus the offset
-	 * @param dest - The destination {@link java.util.Set Set}
+	 * @param dest - The destination {@link Set}
 	 */
 	public static <T> void putArrayOnSet(T[] src, int srcoff, int srcsize, Set<T> dest) {
 		for (int i = srcoff; i < srcsize; i++) {
@@ -83,13 +91,13 @@ public class CollectionUtil {
 		}
 	}
 	
-	/**Creates a new {@link java.util.List List} containing the array's elements
+	/**Creates a new {@link List} containing the array's elements
 	 * 
 	 * @param <T> The elements type
 	 * 
 	 * @param src - The source array
 	 * 
-	 * @return The newly created {@link java.util.List List} containing the array's elements
+	 * @return The newly created {@link List} containing the array's elements
 	 */
 	public static <T> List<T> arrayToList(T[] src) {
 		List<T> list = new ArrayList<>();
@@ -97,15 +105,15 @@ public class CollectionUtil {
 		return list;
 	}
 	
-	/**Creates a new array of type < T > containing the {@link java.util.List List}'s elements.
+	/**Creates a new array of type < T > containing the {@link List}'s elements.
 	 * 
 	 * @param <T> The elements type
 	 * 
-	 * @param src - The source {@link java.util.List List}
+	 * @param src - The source {@link List}
 	 * 
-	 * @return A newly created array containing the {@link java.util.List List}'s elements
+	 * @return A newly created array containing the {@link List}'s elements
 	 * 
-	 * @throws NullPointerException If no non-null element was found in the {@link java.util.List List}
+	 * @throws NullPointerException If no non-null element was found in the {@link List}
 	 */
 	public static <T> T[] listToArray(List<T> src) {
 		if (src.size() == 0) return null;
@@ -118,6 +126,12 @@ public class CollectionUtil {
 		return t;
 	}
 	
+	/**Creates a new {@link List} containing the {@link Set}'s elements.
+	 * 
+	 * @param src - The source {@link Set}
+	 * 
+	 * @return A newly created {@link List} containing the {@link Set}'s elements
+	 */
 	public static <T> List<T> setToList(Set<T> src) {
 		List<T> dest = new ArrayList<>();
 		dest.addAll(src);
@@ -1450,69 +1464,6 @@ public class CollectionUtil {
 			}
 		}
 		return null;
-	}
-	
-	public static void printList(List<?> list, String pre, String suf, PrintStream out) {
-		for (Object obj : list) {
-			out.print(pre);
-			out.print(obj.toString());
-			out.print(suf);
-		}
-		out.println();
-	}
-	
-	public static void printList(List<?> list, String pre, String suf) {
-		printList(list, pre, suf, System.out);
-	}
-	
-	public static void printList(List<?> list, PrintStream out) {
-		printList(list, "", "/n", out);
-	}
-	
-	public static void printList(List<?> list) {
-		printList(list, "", "\n", System.out);
-	}
-	
-	public static <T> void printArray(T[] array, String pre, String suf, PrintStream out) {
-		for (T t : array) {
-			out.print(pre);
-			out.print(t.toString());
-			out.print(suf);
-		}
-		out.println();
-	}
-	
-	public static <T> void printArray(T[] array, String pre, String suf) {
-		printArray(array, pre, suf, System.out);
-	}
-	
-	public static <T> void printArray(T[] array, PrintStream out) {
-		printArray(array, "", "\n", out);
-	}
-	
-	public static <T> void printArray(T[] array) {
-		printArray(array, "", "\n", System.out);
-	}
-	
-	public static void printSet(Set<?> set, String pre, String suf, PrintStream out) {
-		for (Object obj : set) {
-			out.print(pre);
-			out.print(obj.toString());
-			out.print(suf);
-		}
-		out.println();
-	}
-	
-	public static void printSet(Set<?> set, String pre, String suf) {
-		printSet(set, pre, suf, System.out);
-	}
-	
-	public static void printSet(Set<?> set, PrintStream out) {
-		printSet(set, "", "\n", out);
-	}
-	
-	public static void printSet(Set<?> set) {
-		printSet(set, "", "\n", System.out);
 	}
 	
 	public static <T> String toString(T[] array) {

@@ -5,7 +5,6 @@ import java.util.List;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
-
 import net.fantasticfantasy.tseyll.util.CollectionUtil;
 
 /**The <code>Monitor</code> class represents a

@@ -1,5 +1,6 @@
 package net.fantasticfantasy.tseyll;
 
+import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFW;
 
 /**The main class of the Tseyll library.
@@ -52,30 +53,28 @@ public class Tseyll {
 	 */
 	public static class Libraries {
 		
-		/**The {@link Tseyll} library
-		 */
+		/**The {@link Tseyll} library*/
 		public static final LibraryInfo tseyll = tseyll();
 		
-		/**The {@link GLFW} library
-		 */
+		/**The <code>LWJGL</code> library*/
+		public static final LibraryInfo lwjgl = lwjgl();
+		
+		/**The {@link GLFW} library*/
 		public static final LibraryInfo glfw = glfw();
 		
 		/**@STATIC_MODULE_CLASS*/
 		private Libraries() {}
 		
-		/**Generates {@link #TSEYLL}.
-		 * 
-		 * @return A {@link LibraryInfo} of {@link Tseyll}
-		 */
 		private static LibraryInfo tseyll() {
 			LibraryInfo.Version version = new LibraryInfo.Version(0, 0, 0, 1);
 			return new LibraryInfo("Tseyll", version, "java-8");
 		}
+		
+		private static LibraryInfo lwjgl() {
+			LibraryInfo.Version version = new LibraryInfo.Version(Version.VERSION_MAJOR, Version.VERSION_MINOR, Version.VERSION_REVISION);
+			return new LibraryInfo("LWJGL", version);
+		}
 
-		/**Generates {@link #GLFW}.
-		 * 
-		 * @return A {@link LibraryInfo} of {@link GLFW}
-		 */
 		private static LibraryInfo glfw() {
 			int[] maj = new int[1], min = new int[1], rev = new int[1];
 			GLFW.glfwGetVersion(maj, min, rev);

@@ -1,22 +1,35 @@
 package net.fantasticfantasy.tseyll;
 
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWImage;
 
 public class Window {
+	
+	/**Used for disable some fields like {@link #setSizeLimits(int, int, int, int)
+	 * setSizeLimits} and {@link #setAspectRatio(int, int) setAspectRatio}
+	 */
+	public static final int DONT_CARE = GLFW.GLFW_DONT_CARE;
 	
 	protected WindowHints hints;
 	protected long name;
 	
 	private CharSequence title;
+	private WindowIcon icon;
 	private boolean fullscreen;
 	private boolean visible;
-	private int wwidth;
-	private int wheight;
-	private int width;
-	private int height;
-	private int x;
-	private int y;
+	
+	/**The {@link Window} windowed mode size*/
+	private int wwidth, wheight;
+	private int width, height;
+	private int x, y;
+	
+	/**The {@link Window} size limits*/
+	private int minW, minH, maxW, maxH;
+	
+	/**The {@link Window} aspect ratio*/
+	private int aspectRatioNum, aspectRatioDenum;
 	
 	/**Constructs a new {@link Window} with the specified
 	 * {@link WindowHints} and {@link Monitor}.
@@ -46,21 +59,32 @@ public class Window {
 		this.hints = hints;
 	}
 	
-	/**Sets the title of the {@link Window}.
+	/**Returns the {@link GLFW} name of this {@link Window}.
+	 * 
+	 * @return The GLFW name of this Window
+	 */
+	public final long getName() {
+		return this.name;
+	}
+	
+	/**Sets the title of the {@link Window}.<br><br>
+	 * <b>See</b> {@link GLFW#glfwSetWindowTitle(long, CharSequence) glfwSetWindowTitle()}
 	 * 
 	 * @param title - The new title
 	 */
 	public void setTitle(CharSequence title) {
+		this.check();
 		GLFW.glfwSetWindowTitle(this.name, title);
 		this.title = title;
 	}
 	
-	/**Sets the title of the {@link Window} using the bytes
-	 * in <code>title</code>.
+	/**Sets the title of the {@link Window} using the bytes in <code>title</code>.<br><br>
+	 * <b>See</b> {@link GLFW#glfwSetWindowTitle(long, ByteBuffer) glfwSetWindowTitle()}
 	 * 
 	 * @param title - The new title
 	 */
 	public void setTitle(ByteBuffer title) {
+		this.check();
 		GLFW.glfwSetWindowTitle(this.name, title);
 		byte[] chars = new byte[title.remaining()];
 		title.get(chars);
@@ -72,11 +96,14 @@ public class Window {
 		this.title = new String(chars);
 	}
 	
-	/**Sets whether or not the {@link Window} should be visible.
+	/**Sets whether or not the {@link Window} should be visible.<br><br>
+	 * <b>See</b> {@link GLFW#glfwShowWindow(long) glfwShowWindow()}<br>
+	 * <b>See</b> {@link GLFW#glfwHideWindow(long) glfwHideWindow()}
 	 * 
 	 * @param visible - The new visibility
 	 */
 	public void setVisible(boolean visible) {
+		this.check();
 		if (this.fullscreen) {
 			return;
 		}
@@ -92,6 +119,7 @@ public class Window {
 	 * <b>See</b> {@link GLFW#glfwIconifyWindow(long) glfwIconifyWindow()}
 	 */
 	public void iconify() {
+		this.check();
 		GLFW.glfwIconifyWindow(this.name);
 	}
 	
@@ -99,6 +127,7 @@ public class Window {
 	 * <b>See</b> {@link GLFW#glfwMaximizeWindow(long) glfwMaximizeWindow()}
 	 */
 	public void maximize() {
+		this.check();
 		if (this.fullscreen) {
 			return;
 		}
@@ -109,68 +138,83 @@ public class Window {
 	 * <b>See</b> {@link GLFW#glfwRestoreWindow(long) glfwRestoreWindow()}
 	 */
 	public void restore() {
+		this.check();
 		GLFW.glfwRestoreWindow(this.name);
 	}
 	
-	/**Sets the <code>x</code> coordinate of the {@link Window}.
+	/**Sets the <code>x</code> coordinate of the {@link Window}.<br><br>
+	 * <b>See</b> {@link GLFW#glfwSetWindowPos(long, int, int) glfwSetWindowPos()}
 	 * 
 	 * @param x - The new <code>x</code> coordinate
 	 */
 	public void setX(int x) {
+		this.check();
 		this.x = x;
 		this.updatePosAndSize();
 	}
 	
-	/**Sets the <code>y</code> coordinate of the {@link Window}.
+	/**Sets the <code>y</code> coordinate of the {@link Window}.<br><br>
+	 * <b>See</b> {@link GLFW#glfwSetWindowPos(long, int, int) glfwSetWindowPos()}
 	 * 
 	 * @param y - The new <code>y</code> coordinate
 	 */
 	public void setY(int y) {
+		this.check();
 		this.y = y;
 		this.updatePosAndSize();
 	}
 	
-	/**Sets the position of the {@link Window}.
+	/**Sets the position of the {@link Window}.<br><br>
+	 * <b>See</b> {@link GLFW#glfwSetWindowPos(long, int, int) glfwSetWindowPos()}
 	 * 
 	 * @param x - The new <code>x</code> coordinate
 	 * @param y - The new <code>y</code> coordinate
 	 */
 	public void setPosition(int x, int y) {
+		this.check();
 		this.x = x;
 		this.y = y;
 		this.updatePosAndSize();
 	}
 	
-	/**Sets the <code>width</code> of the {@link Window}
+	/**Sets the <code>width</code> of the {@link Window}.<br><br>
+	 * <b>See</b> {@link GLFW#glfwSetWindowSize(long, int, int) glfwSetWindowSize()}
 	 * 
 	 * @param width - The new <code>width</code>
 	 */
 	public void setWidth(int width) {
+		this.check();
 		this.wwidth = width;
 		this.updatePosAndSize();
 	}
 
-	/**Sets the <code>height</code> of the {@link Window}
+	/**Sets the <code>height</code> of the {@link Window}.<br><br>
+	 * <b>See</b> {@link GLFW#glfwSetWindowSize(long, int, int) glfwSetWindowSize()}
 	 * 
 	 * @param width - The new <code>height</code>
 	 */
 	public void setHeight(int height) {
+		this.check();
 		this.wheight = height;
 		this.updatePosAndSize();
 	}
 	
-	/**Sets the size of the {@link Window}
+	/**Sets the size of the {@link Window}.<br><br>
+	 * <b>See</b> {@link GLFW#glfwSetWindowSize(long, int, int) glfwSetWindowSize()}
 	 * 
 	 * @param width - The new <code>width</code>
 	 * @param height - The new <code>height</code>
 	 */
 	public void setSize(int width, int height) {
+		this.check();
 		this.wwidth = width;
 		this.wheight = height;
 		this.updatePosAndSize();
 	}
 	
-	/**Sets the position and size of the {@link Window}.
+	/**Sets the position and size of the {@link Window}.<br><br>
+	 * <b>See</b> {@link GLFW#glfwSetWindowPos(long, int, int) glfwSetWindowPos()}<br>
+	 * <b>See</b> {@link GLFW#glfwSetWindowSize(long, int, int) glfwSetWindowSize()}<br>
 	 * 
 	 * @param x - The new <code>x</code> coordinate
 	 * @param y - The new <code>y</code> coordinate
@@ -178,11 +222,46 @@ public class Window {
 	 * @param height - The new <code>height</code>
 	 */
 	public void setBounds(int x, int y, int width, int height) {
+		this.check();
 		this.x = x;
 		this.y = y;
 		this.wwidth = width;
 		this.wheight = height;
 		this.updatePosAndSize();
+	}
+	
+	/**Sets the {@link Window} size limits to the specified parameters.<br>
+	 * Put {@link #DONT_CARE} on fields to disable.<br><br>
+	 * <b>See</b> {@link GLFW#glfwSetWindowSizeLimits(long, int, int, int, int)
+	 * glfwSetWindowSizeLimits()}
+	 * 
+	 * @param minW - The minimum {@link Window} width
+	 * @param minH - The minimum {@link Window} height
+	 * @param maxW - The maximum {@link Window} width
+	 * @param maxH - The maximum {@link Window} height
+	 */
+	public void setSizeLimits(int minW, int minH, int maxW, int maxH) {
+		this.check();
+		this.checkSizeLimits(minW, minH, maxW, maxH);
+		GLFW.glfwSetWindowSizeLimits(this.name, minW, minH, maxW, maxH);
+		this.minW = minW;
+		this.minH = minH;
+		this.maxW = maxW;
+		this.maxH = maxH;
+	}
+	
+	/**Sets the {@link Window} aspect ratio to the specified parameters.<br>
+	 * Put {@link #DONT_CARE} on <i>EVERY</i> fields to disable.<br><br>
+	 * <b>See</b> {@link GLFW#glfwSetWindowAspectRatio(long, int, int)
+	 * glfwSetWindowAspectRatio()}
+	 * 
+	 * @param num - The numerator
+	 * @param denum - The denominator
+	 */
+	public void setAspectRatio(int num, int denum) {
+		this.check();
+		this.checkAspectRatio(num, denum);
+		GLFW.glfwSetWindowAspectRatio(this.name, num, denum);
 	}
 	
 	/**Sets the focus to this {@link Window} and brings it to the front.
@@ -198,18 +277,29 @@ public class Window {
 		GLFW.glfwFocusWindow(this.name);
 	}
 	
+	public void setIcon(WindowIcon icon) {
+		this.check();
+		GLFWImage.Buffer buffer = icon.toBuffer();
+		GLFW.glfwSetWindowIcon(this.name, buffer);
+		this.icon = icon;
+	}
+	
 	/**Requests the user's attention on this {@link Window}.<br>
 	 * <b>See</b> {@link GLFW#glfwRequestWindowAttention(long) glfwRequestWindowAttention()}
 	 */
 	public void requestUserAttention() {
+		this.check();
 		GLFW.glfwRequestWindowAttention(this.name);
 	}
 	
-	/**Sets the should close status of the {@link Window} to <code>b</code>.
+	/**Sets the should close status of the {@link Window} to <code>b</code>.<br><br>
+	 * <b>See</b> {@link GLFW#glfwSetWindowShouldClose(long, boolean)
+	 * glfwSetWindowShouldClose()}
 	 * 
 	 * @param b - The new should close status
 	 */
 	public void setShouldClose(boolean b) {
+		this.check();
 		GLFW.glfwSetWindowShouldClose(this.name, b);
 	}
 	
@@ -219,6 +309,7 @@ public class Window {
 	 * @param pointer - The user-defined pointer
 	 */
 	public void setUserPointer(long pointer) {
+		this.check();
 		GLFW.glfwSetWindowUserPointer(this.name, pointer);
 	}
 	
@@ -246,6 +337,7 @@ public class Window {
 	 * @return Whether or not the window is iconified
 	 */
 	public boolean isInconified() {
+		this.check();
 		return GLFW.glfwGetWindowAttrib(this.name, GLFW.GLFW_ICONIFIED) == GLFW.GLFW_TRUE;
 	}
 	
@@ -256,6 +348,7 @@ public class Window {
 	 * @return Whether or not the window is maximized
 	 */
 	public boolean isMaximized() {
+		this.check();
 		return GLFW.glfwGetWindowAttrib(this.name, GLFW.GLFW_MAXIMIZED) == GLFW.GLFW_TRUE;
 	}
 	
@@ -344,11 +437,160 @@ public class Window {
 		return this.height;
 	}
 	
+	/**Queries the {@link Window} position and size.<br>
+	 * Put <code>null</code> on a field you don't want to query.
+	 * 
+	 * @param x - The {@link IntBuffer} where to store <code>x</code>,
+	 * or <code>null</code> to ignore
+	 * @param y - The {@link IntBuffer} where to store <code>y</code>,
+	 * or <code>null</code> to ignore
+	 * @param width - The {@link IntBuffer} where to store <code>width</code>,
+	 * or <code>null</code> to ignore
+	 * @param height - The {@link IntBuffer} where to store <code>height</code>,
+	 * or <code>null</code> to ignore
+	 */
+	public void queryBounds(IntBuffer x, IntBuffer y, IntBuffer width, IntBuffer height) {
+		this.check();
+		if (x != null) {
+			x.put(this.getX());
+		}
+		if (y != null) {
+			y.put(this.getY());
+		}
+		if (width != null) {
+			width.put(this.width);
+		}
+		if (height != null) {
+			height.put(this.height);
+		}
+	}
+	
+	/**Queries the {@link Window} position and size.<br>
+	 * Put <code>null</code> on a field you don't want to query.
+	 * 
+	 * @param x - The <code>int[]</code> where to store <code>x</code>,
+	 * or <code>null</code> to ignore
+	 * @param y - The <code>int[]</code> where to store <code>y</code>,
+	 * or <code>null</code> to ignore
+	 * @param width - The <code>int[]</code> where to store <code>width</code>,
+	 * or <code>null</code> to ignore
+	 * @param height - The <code>int[]</code> where to store <code>height</code>,
+	 * or <code>null</code> to ignore
+	 */
+	public void queryBounds(int[] x, int[] y, int[] width, int[] height) {
+		this.check();
+		if (x != null) {
+			x[0] = this.getX();
+		}
+		if (y != null) {
+			y[0] = this.getY();
+		}
+		if (width != null) {
+			width[0] = this.width;
+		}
+		if (height != null) {
+			height[0] = this.height;
+		}
+	}
+	
+	/**Queries the {@link Window} size limits.<br>
+	 * Put <code>null</code> on a field you don't want to query.
+	 * 
+	 * @param minW - The {@link IntBuffer} where to store <code>minW</code>,
+	 * or <code>null</code> to ignore
+	 * @param minH - The {@link IntBuffer} where to store <code>minH</code>,
+	 * or <code>null</code> to ignore
+	 * @param maxW - The {@link IntBuffer} where to store <code>maxW</code>,
+	 * or <code>null</code> to ignore
+	 * @param maxH - The {@link IntBuffer} where to store <code>maxH</code>,
+	 * or <code>null</code> to ignore
+	 */
+	public void querySizeLimits(IntBuffer minW, IntBuffer minH, IntBuffer maxW, IntBuffer maxH) {
+		this.check();
+		if (minW != null) {
+			minW.put(this.minW);
+		}
+		if (minH != null) {
+			minH.put(this.minH);
+		}
+		if (maxW != null) {
+			maxW.put(this.maxW);
+		}
+		if (maxH != null) {
+			maxH.put(this.maxH);
+		}
+	}
+	
+	/**Queries the {@link Window} size limits.<br>
+	 * Put <code>null</code> on a field you don't want to query.
+	 * 
+	 * @param minW - The <code>int[]</code> where to store <code>minW</code>,
+	 * or <code>null</code> to ignore
+	 * @param minH - The <code>int[]</code> where to store <code>minH</code>,
+	 * or <code>null</code> to ignore
+	 * @param maxW - The <code>int[]</code> where to store <code>maxW</code>,
+	 * or <code>null</code> to ignore
+	 * @param maxH - The <code>int[]</code> where to store <code>maxH</code>,
+	 * or <code>null</code> to ignore
+	 */
+	public void querySizeLimits(int[] minW, int[] minH, int[] maxW, int[] maxH) {
+		this.check();
+		if (minW != null) {
+			minW[0] = this.minW;
+		}
+		if (minH != null) {
+			minH[0] = this.minH;
+		}
+		if (maxW != null) {
+			maxW[0] = this.maxW;
+		}
+		if (maxH != null) {
+			maxH[0] = this.maxH;
+		}
+	}
+	
+	/**Queries the {@link Window} aspect ratio limit.<br>
+	 * Put <code>null</code> on a field you don't want to query.
+	 * 
+	 * @param num - The {@link IntBuffer} where to store <code>num</code>,
+	 * or <code>null</code> to ignore
+	 * @param denum - The {@link IntBuffer} where to store <code>denum</code>,
+	 * or <code>null</code> to ignore
+	 */
+	public void queryAspectRatio(IntBuffer num, IntBuffer denum) {
+		this.check();
+		if (num != null) {
+			num.put(this.aspectRatioNum);
+		}
+		if (denum != null) {
+			denum.put(this.aspectRatioDenum);
+		}
+	}
+
+	/**Queries the {@link Window} aspect ratio limit.<br>
+	 * Put <code>null</code> on a field you don't want to query.
+	 * 
+	 * @param num - The <code>int[]</code> where to store <code>num</code>,
+	 * or <code>null</code> to ignore
+	 * @param denum - The <code>int[]</code> where to store <code>denum</code>,
+	 * or <code>null</code> to ignore
+	 */
+	public void queryAspectRatio(int[] num, int[] denum) {
+		this.check();
+		if (num != null) {
+			num[0] = this.aspectRatioNum;
+		}
+		if (denum != null) {
+			denum[0] = this.aspectRatioDenum;
+		}
+	}
+	
 	/**Returns whether or not the {@link Window} has the input focus.
 	 * 
 	 * @return Whether or not the window has focus
 	 */
 	public boolean hasFocus() {
+		this.check();
 		return GLFW.glfwGetWindowAttrib(this.name, GLFW.GLFW_FOCUSED) == GLFW.GLFW_TRUE;
 	}
 	
@@ -360,6 +602,7 @@ public class Window {
 	 * @return Whether or not the window should close
 	 */
 	public boolean shouldClose() {
+		this.check();
 		return GLFW.glfwWindowShouldClose(this.name);
 	}
 	
@@ -369,12 +612,14 @@ public class Window {
 	 * @return The user-defined pointer
 	 */
 	public long getUserPointer() {
+		this.check();
 		return GLFW.glfwGetWindowUserPointer(this.name);
 	}
 	
 	/**Sets this {@link Window} to fullscreen mode.
 	 */
 	public void setFullscreenMode() {
+		this.check();
 		if (this.fullscreen) {
 			return;
 		}
@@ -389,6 +634,7 @@ public class Window {
 	/**Sets this {@link Window} to windowed mode.
 	 */
 	public void setWindowedMode() {
+		this.check();
 		if (!this.fullscreen) {
 			return;
 		}
@@ -411,6 +657,7 @@ public class Window {
 	 * 
 	 */
 	public void makeContextCurrent() {
+		this.check();
 		GLFW.glfwMakeContextCurrent(this.name);
 	}
 	
@@ -432,6 +679,7 @@ public class Window {
 	 * <b>See</b> {@link GLFW#glfwSwapBuffers(long) glfwSwapBuffers()}
 	 */
 	public void swapBuffers() {
+		this.check();
 		GLFW.glfwSwapBuffers(this.name);
 	}
 
@@ -442,12 +690,30 @@ public class Window {
 		GLFW.glfwSwapInterval(interval);
 	}
 	
+	/**Destroys this {@link Window}.<br>
+	 * <b>See</b> {@link GLFW#glfwDestroyWindow(long) glfwDestroyWindow()}
+	 */
+	public void destroy() {
+		this.check();
+		GLFW.glfwDestroyWindow(this.name);
+		this.name = 0;
+	}
+	
+	/**Returns whether or not this {@link Window} is destroyed.
+	 * 
+	 * @return Whether or not this window is destroyed
+	 */
+	public boolean isDestroyed() {
+		return this.name == 0;
+	}
+	
 	/**Sets the system's clipboard content.<br>
 	 * <b>See</b> {@link GLFW#glfwSetClipboardString(long, CharSequence) glfwSetClipboardString()}
 	 * 
 	 * @param data - The {@link CharSequence} to be copied to the system's clipboard
 	 */
 	public void setClipboardString(CharSequence data) {
+		this.check();
 		GLFW.glfwSetClipboardString(this.name, data);
 	}
 	
@@ -457,6 +723,7 @@ public class Window {
 	 * @param data - The {@link ByteBuffer} to be copied to the system's clipboard
 	 */
 	public void setClipboardString(ByteBuffer data) {
+		this.check();
 		GLFW.glfwSetClipboardString(this.name, data);
 	}
 	
@@ -466,22 +733,62 @@ public class Window {
 	 * @return The clipboard {@link String}
 	 */
 	public String getClipboardString() {
+		this.check();
 		return GLFW.glfwGetClipboardString(this.name);
 	}
 	
 	/**Returns a {@link String} representation of this {@link Window}.
 	 */
 	public String toString() {
-		return "net.fantasticfantasy.engine3d.Window{name=" + this.name + ",title=" + this.title + "}";
+		return this.getClass().getName() + "{name=" + this.name + ",title=" + this.title + "}";
 	}
 	
 	private void updatePosAndSize() {
 		if (this.fullscreen) {
 			return;
 		}
+		this.checkBounds(this.x, this.y, this.wwidth, this.wheight);
 		GLFW.glfwSetWindowPos(this.name, this.x, this.y);
 		GLFW.glfwSetWindowSize(this.name, this.wwidth, this.wheight);
 		this.width = this.wwidth;
 		this.height = this.wheight;
+	}
+	
+	private void check() {
+		if (this.isDestroyed()) {
+			throw new NullPointerException("Window is destroyed");
+		}
+	}
+	
+	private void checkBounds(int x, int y, int width, int height) {
+		if (x < 0) {
+			throw new IllegalArgumentException("'x' < 0 (" + x + ")");
+		} else if (y < 0) {
+			throw new IllegalArgumentException("'y' < 0 (" + y + ")");
+		} else if (width < 0) {
+			throw new IllegalArgumentException("'x' < 0 (" + width + ")");
+		} else if (height < 0) {
+			throw new IllegalArgumentException("'x' < 0 (" + height + ")");
+		}
+	}
+	
+	private void checkSizeLimits(int minW, int minH, int maxW, int maxH) {
+		if (minW < DONT_CARE) {
+			throw new IllegalArgumentException("'minW' < 0 (" + minW + ")");
+		} else if (minH < DONT_CARE) {
+			throw new IllegalArgumentException("'minH' < 0 (" + minH + ")");
+		} else if (maxW < minW && maxW != DONT_CARE) {
+			throw new IllegalArgumentException("'maxW' (" + maxW + ") < 'minW' (" + minW + ")");
+		} else if (maxH < minH && maxH != DONT_CARE) {
+			throw new IllegalArgumentException("'maxH' (" + maxH + ") < 'minH' (" + minH + ")");
+		}
+	}
+	
+	private void checkAspectRatio(int num, int denum) {
+		if (num <= 0 && num != DONT_CARE) {
+			throw new IllegalArgumentException("'num' <= 0 (" + num + ")");
+		} else if (denum <= 0 && denum != DONT_CARE) {
+			throw new IllegalArgumentException("'denum' <= 0 (" + denum + ")");
+		}
 	}
 }
