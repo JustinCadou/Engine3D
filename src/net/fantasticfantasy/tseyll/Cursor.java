@@ -116,6 +116,14 @@ public final class Cursor {
 		this.updateCursor();
 	}
 	
+	/**Sets the {@link Cursor} input {@link Mode} of the owner {@link Window}.
+	 * 
+	 * @param mode - The cursor {@link Mode}
+	 */
+	public void setInputMode(Mode mode) {
+		GLFW.glfwSetInputMode(this.owner.name, GLFW.GLFW_CURSOR, mode.value);
+	}
+	
 	/**Queries the current position of the {@link Cursor}.
 	 * 
 	 * @param x - Where to store <code>x</code>, or
@@ -230,10 +238,59 @@ public final class Cursor {
 		return this.yhot;
 	}
 	
+	/**Returns the current {@link Cursor} input {@link Mode}
+	 * of the owner {@link Window}.
+	 * 
+	 * @return The cursor {@link Mode}
+	 */
+	public Mode getInputMode() {
+		return Mode.forValue(GLFW.glfwGetInputMode(this.owner.name, GLFW.GLFW_CURSOR));
+	}
+	
 	private void updateCursor() {
 		GLFW.glfwDestroyCursor(this.name);
 		GLFWImage gimg = ImageConverts.toGLFWImage(this.image);
 		this.name = GLFW.glfwCreateCursor(gimg, this.xhot, this.yhot);
 		GLFW.glfwSetCursor(this.owner.name, this.name);
+	}
+	
+	/**The cursor input mode<br><br>
+	 * {@link #NORMAL}<br>
+	 * {@link #HIDDEN}<br>
+	 * {@link #DISABLED}
+	 */
+	public static enum Mode {
+		
+		/**Represents {@link GLFW#GLFW_CURSOR_NORMAL GLFW_CURSOR_NORMAL}*/
+		NORMAL(GLFW.GLFW_CURSOR_NORMAL),
+		
+		/**Represents {@link GLFW#GLFW_CURSOR_HIDDEN GLFW_CURSOR_HIDDEN}*/
+		HIDDEN(GLFW.GLFW_CURSOR_HIDDEN),
+		
+		/**Represents {@link GLFW#GLFW_CURSOR_DISABLED GLFW_CURSOR_DISABLED}*/
+		DISABLED(GLFW.GLFW_CURSOR_DISABLED);
+		
+		private int value;
+		
+		Mode(int value) {
+			this.value = value;
+		}
+		
+		/**Returns the {@link GLFW} value of this <code>enum</code>.
+		 * 
+		 * @return - The value
+		 */
+		public int getValue() {
+			return this.value;
+		}
+		
+		public static Mode forValue(int value) {
+			for (Mode mode : values()) {
+				if (mode.value == value) {
+					return mode;
+				}
+			}
+			return null;
+		}
 	}
 }

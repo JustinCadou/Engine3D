@@ -26,6 +26,7 @@ public class Tseyll {
 		if (!GLFW.glfwInit()) {
 			throw new InitializationException("Could not initialize GLFW!");
 		}
+		Monitor.init();
 		init = true;
 	}
 	
