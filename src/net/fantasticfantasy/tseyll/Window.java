@@ -2,8 +2,13 @@ package net.fantasticfantasy.tseyll;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.List;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWImage;
+import org.lwjgl.glfw.GLFWKeyCallback;
+import org.lwjgl.glfw.GLFWMouseButtonCallback;
+import org.lwjgl.glfw.GLFWScrollCallback;
+import net.fantasticfantasy.tseyll.event.KeyboardListener;
 
 public class Window {
 	
@@ -17,6 +22,7 @@ public class Window {
 	
 	private CharSequence title;
 	private WindowIcon icon;
+	private Cursor cursor;
 	private boolean fullscreen;
 	private boolean visible;
 	
@@ -30,6 +36,8 @@ public class Window {
 	
 	/**The {@link Window} aspect ratio*/
 	private int aspectRatioNum, aspectRatioDenum;
+	
+	private List<KeyboardListener> keyListeners;
 	
 	/**Constructs a new {@link Window} with the specified
 	 * {@link WindowHints} and {@link Monitor}.
@@ -50,12 +58,14 @@ public class Window {
 		this.width = monitor.name == 0 ? this.wwidth : monitor.width;
 		this.height = monitor.name == 0 ? this.wheight : monitor.height;
 		this.name = GLFW.glfwCreateWindow(this.width, this.height, "Tseyll Window", monitor.name, 0);
+		this.initCallbacks();
 		int[] qx = new int[1];
 		int[] qy = new int[1];
 		GLFW.glfwGetWindowPos(this.name, qx, qy);
 		this.x = qx[0];
 		this.y = qy[0];
 		this.visible = hints.visible == WindowHints.Boolean.TRUE ? true : false;
+		this.cursor = new Cursor(this);
 		this.hints = hints;
 	}
 	
@@ -437,6 +447,22 @@ public class Window {
 		return this.height;
 	}
 	
+	/**Returns the {@link WindowIcon} of the {@link Window}.
+	 * 
+	 * @return The icon
+	 */
+	public WindowIcon getIcon() {
+		return this.icon;
+	}
+	
+	/**Returns the {@link Cursor} of the {@link Window}.
+	 * 
+	 * @return The cursor
+	 */
+	public Cursor getCursor() {
+		return this.cursor;
+	}
+	
 	/**Queries the {@link Window} position and size.<br>
 	 * Put <code>null</code> on a field you don't want to query.
 	 * 
@@ -789,6 +815,62 @@ public class Window {
 			throw new IllegalArgumentException("'num' <= 0 (" + num + ")");
 		} else if (denum <= 0 && denum != DONT_CARE) {
 			throw new IllegalArgumentException("'denum' <= 0 (" + denum + ")");
+		}
+	}
+	
+	/**Initializes the callbacks*/
+	private void initCallbacks() {
+		GLFW.glfwSetKeyCallback(this.name, new Keyboard(this));
+		GLFW.glfwSetMouseButtonCallback(this.name, new Mouse(this));
+		GLFW.glfwSetScrollCallback(this.name, new Scroll(this));
+	}
+	
+	/**Calls every {@link KeyboardListener} from the owner {@link Window}*/
+	private static class Keyboard extends GLFWKeyCallback {
+		
+		private Window owner;
+		
+		private Keyboard(Window owner) {
+			this.owner = owner;
+		}
+		
+		public void invoke(long window, int key, int scancode, int action, int mods) {
+			for (int i = 0; i < this.owner.keyListeners.size(); i++) {
+				KeyboardListener listener = this.owner.keyListeners.get(i);
+				if (action == GLFW.GLFW_PRESS) {
+					listener.keyPressed(key, scancode, mods);
+				} else if (action == GLFW.GLFW_RELEASE) {
+					listener.keyReleased(key, scancode, mods);
+				} else if (action == GLFW.GLFW_REPEAT) {
+					listener.keyRepeat(key, scancode, mods);
+				}
+			}
+		}
+	}
+	
+	private static class Mouse extends GLFWMouseButtonCallback {
+		
+		private Window owner;
+		
+		private Mouse(Window owner) {
+			this.owner = owner;
+		}
+		
+		public void invoke(long window, int button, int action, int mods) {
+			
+		}
+	}
+	
+	private static class Scroll extends GLFWScrollCallback {
+		
+		private Window owner;
+		
+		private Scroll(Window owner) {
+			this.owner = owner;
+		}
+		
+		public void invoke(long window, double dx, double dy) {
+			
 		}
 	}
 }
