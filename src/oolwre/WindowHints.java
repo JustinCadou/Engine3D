@@ -1,4 +1,4 @@
-package net.fantasticfantasy.tseyll;
+package oolwre;
 
 import org.lwjgl.glfw.GLFW;
 

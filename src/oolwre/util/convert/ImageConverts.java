@@ -1,9 +1,10 @@
-package net.fantasticfantasy.tseyll.util.convert;
+package oolwre.util.convert;
 
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import org.lwjgl.glfw.GLFWImage;
-import net.fantasticfantasy.tseyll.image.Image;
+
+import oolwre.image.Image;
 
 /**The <code>ImageConverts</code> class is used to convert images
  * from different libraries.

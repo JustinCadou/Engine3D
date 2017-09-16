@@ -1,11 +1,12 @@
-package net.fantasticfantasy.tseyll;
+package oolwre;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import org.lwjgl.glfw.GLFWImage;
-import net.fantasticfantasy.tseyll.image.Image;
-import net.fantasticfantasy.tseyll.util.convert.ImageConverts;
+
+import oolwre.image.Image;
+import oolwre.util.convert.ImageConverts;
 
 /**The <code>WindowIcon</code> class represents
  * {@link Window} application icon with various

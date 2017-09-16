@@ -1,4 +1,4 @@
-package net.fantasticfantasy.tseyll.io;
+package oolwre.io;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,7 +7,8 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.stb.STBImage;
-import net.fantasticfantasy.tseyll.image.Image;
+
+import oolwre.image.Image;
 
 /**The <code>ImageIO</code> class is used to read and decode data
  * from an {@link InputStream} using the {@link STBImage} library.

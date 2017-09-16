@@ -1,4 +1,4 @@
-package net.fantasticfantasy.tseyll.util;
+package oolwre.util;
 
 import java.lang.reflect.Array;
 import java.nio.ByteBuffer;

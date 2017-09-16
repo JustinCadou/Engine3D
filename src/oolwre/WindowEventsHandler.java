@@ -1,4 +1,4 @@
-package net.fantasticfantasy.tseyll;
+package oolwre;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,10 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWScrollCallback;
-import net.fantasticfantasy.tseyll.event.KeyboardListener;
-import net.fantasticfantasy.tseyll.event.MouseButtonListener;
-import net.fantasticfantasy.tseyll.event.ScrollListener;
+
+import oolwre.event.KeyboardListener;
+import oolwre.event.MouseButtonListener;
+import oolwre.event.ScrollListener;
 
 /**The <code>WindowEventsHandler</code> class is used
  * to handle the events from a {@link Window}.<br>

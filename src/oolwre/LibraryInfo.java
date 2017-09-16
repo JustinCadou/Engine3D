@@ -1,6 +1,6 @@
-package net.fantasticfantasy.tseyll;
+package oolwre;
 
-import net.fantasticfantasy.tseyll.util.CollectionUtil;
+import oolwre.util.CollectionUtil;
 
 /**A {@link LibraryInfo} is an immutable object that contains
  * abstract informations about a certain library.

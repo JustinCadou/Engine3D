@@ -1,27 +1,27 @@
-package net.fantasticfantasy.tseyll;
+package oolwre;
 
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFW;
 
-/**The main class of the Tseyll library.
+/**The main class of the OOLWRE library.
  */
-public class Tseyll {
+public class OOLWRE {
 	
 	/**@STATIC_MODULE_CLASS*/
-	private Tseyll() {}
+	private OOLWRE() {}
 	
-	/**Whether or not Tseyll is initialized
+	/**Whether or not {@link OOLWRE} is initialized
 	 */
 	private static boolean init;
 	
-	/**Initializes Tseyll and the required libraries.
+	/**Initializes {@link OOLWRE} and the required libraries.
 	 * 
 	 * @throws InitializationException - If any error occurs
 	 * while initializing
 	 */
 	public static void init() throws InitializationException {
 		if (init) {
-			throw new IllegalStateException("Tseyll is already initialized!");
+			throw new IllegalStateException("OOLWRE is already initialized!");
 		}
 		if (!GLFW.glfwInit()) {
 			throw new InitializationException("Could not initialize GLFW!");
@@ -30,32 +30,32 @@ public class Tseyll {
 		init = true;
 	}
 	
-	/**Terminates the execution of {@link Tseyll} and the libraries
+	/**Terminates the execution of {@link OOLWRE} and the libraries
 	 * initialized on the invocation of {@link #init()}.
 	 */
 	public static void terminate() {
 		if (!init) {
-			throw new IllegalStateException("Tseyll is not initialized!");
+			throw new IllegalStateException("OOLWRE is not initialized!");
 		}
 		GLFW.glfwTerminate();
 		init = false;
 	}
 	
-	/**<b>T</b>erribly <b>S</b>imple <b>E</b>xecuted in <b>Y</b>octoseconds
-	 * <b>L</b>oveable <b>L</b>ibrary
+	/**<b>O</b>bject-<b>O</b>riented <b>L</b>ight<b> W</b>eight
+	 * <b>R</b>ender <b>E</b>ngine
 	 * 
-	 * @return TSEYLL acronym meaning
+	 * @return <code>OOLWRE</code> acronym meaning
 	 */
 	public static final String getTseyllMeaning() {
-		return "Terribly Simple Executed in Yoctosecond Loveable Library";
+		return "Object-Oriented Light Weight Render Engine";
 	}
 	
-	/**Contains all the libraries used by {@link Tseyll}
+	/**Contains all the libraries used by {@link OOLWRE}
 	 */
 	public static class Libraries {
 		
-		/**The {@link Tseyll} library*/
-		public static final LibraryInfo tseyll = tseyll();
+		/**The {@link OOLWRE} library*/
+		public static final LibraryInfo oolwre = oolwre();
 		
 		/**The <code>LWJGL</code> library*/
 		public static final LibraryInfo lwjgl = lwjgl();
@@ -66,9 +66,9 @@ public class Tseyll {
 		/**@STATIC_MODULE_CLASS*/
 		private Libraries() {}
 		
-		private static LibraryInfo tseyll() {
-			LibraryInfo.Version version = new LibraryInfo.Version(0, 0, 0, 1);
-			return new LibraryInfo("Tseyll", version, "java-8");
+		private static LibraryInfo oolwre() {
+			LibraryInfo.Version version = new LibraryInfo.Version(0, 0, 0, 5);
+			return new LibraryInfo("OOLWRE", version, "java-8");
 		}
 		
 		private static LibraryInfo lwjgl() {

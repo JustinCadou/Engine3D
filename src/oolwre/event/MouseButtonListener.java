@@ -1,7 +1,8 @@
-package net.fantasticfantasy.tseyll.event;
+package oolwre.event;
 
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
-import net.fantasticfantasy.tseyll.Window;
+
+import oolwre.Window;
 
 /**A <code>MouseButtonListener</code> is used to call
  * methods on the time a mouse event is triggered.<br>

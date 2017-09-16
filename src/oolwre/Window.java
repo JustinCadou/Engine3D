@@ -1,4 +1,4 @@
-package net.fantasticfantasy.tseyll;
+package oolwre;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -53,7 +53,7 @@ public class Window {
 		this.wheight = 480;
 		this.width = monitor.name == 0 ? this.wwidth : monitor.width;
 		this.height = monitor.name == 0 ? this.wheight : monitor.height;
-		this.name = GLFW.glfwCreateWindow(this.width, this.height, "Tseyll Window", monitor.name, 0);
+		this.name = GLFW.glfwCreateWindow(this.width, this.height, "OOLWRE Window", monitor.name, 0);
 		this.eventsHandler = new WindowEventsHandler(this);
 		int[] qx = new int[1];
 		int[] qy = new int[1];

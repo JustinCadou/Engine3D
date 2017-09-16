@@ -1,7 +1,8 @@
-package net.fantasticfantasy.tseyll.event;
+package oolwre.event;
 
 import org.lwjgl.glfw.GLFWKeyCallback;
-import net.fantasticfantasy.tseyll.Window;
+
+import oolwre.Window;
 
 /**A <code>KeyboardListener</code> is used to call
  * methods on the time a key event is triggered.<br>

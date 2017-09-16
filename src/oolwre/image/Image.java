@@ -1,4 +1,4 @@
-package net.fantasticfantasy.tseyll.image;
+package oolwre.image;
 
 import java.nio.Buffer;
 import java.nio.ByteBuffer;

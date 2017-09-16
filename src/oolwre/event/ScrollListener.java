@@ -1,7 +1,8 @@
-package net.fantasticfantasy.tseyll.event;
+package oolwre.event;
 
 import org.lwjgl.glfw.GLFWScrollCallback;
-import net.fantasticfantasy.tseyll.Window;
+
+import oolwre.Window;
 
 /**A <code>ScrollListener</code> is used to call
  * methods on the time a scroll event is triggered.<br>

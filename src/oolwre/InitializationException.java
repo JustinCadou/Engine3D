@@ -1,4 +1,4 @@
-package net.fantasticfantasy.tseyll;
+package oolwre;
 
 /**The <code>InitializationException</code> class represents any
  * error that could have happened during the initialization.
