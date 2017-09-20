@@ -5,8 +5,7 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 import org.lwjgl.opengl.GL20;
-
-import oolwre.render.RenderManager.ValueType;
+import oolwre.data.ValueType;
 
 /**The <code>ArrayBuffer</code> class represents a
  * {@link VertexBufferObject} of {@link BufferType}
