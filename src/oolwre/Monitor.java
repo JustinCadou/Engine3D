@@ -18,6 +18,10 @@ public final class Monitor {
 	 */
 	public static final Monitor NULL = new Monitor(0);
 	
+	static {
+		refreshMonitors();
+	}
+	
 	private static List<Monitor> monitors;
 	private static Monitor primary;
 	
@@ -157,10 +161,6 @@ public final class Monitor {
 	 */
 	public static List<Monitor> getMonitors() {
 		return CollectionUtil.<Monitor>duplicate(monitors);
-	}
-	
-	protected static void init() {
-		refreshMonitors();
 	}
 	
 	/**Queries all the user monitors.

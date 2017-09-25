@@ -6,8 +6,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL30;
 
-import oolwre.data.Texture;
-
 /**An <code>Image</code> represents an abstract
  * image that contains width, height and data.
  * 

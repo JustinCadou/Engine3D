@@ -1,5 +1,6 @@
 package oolwre.util;
 
+
 import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -118,7 +119,6 @@ public class CollectionUtil {
 	public static <T> T[] listToArray(List<T> src) {
 		if (src.size() == 0) return null;
 		T ins = getNonNull(src);
-		@SuppressWarnings("unchecked")
 		T[] t = (T[]) Array.newInstance(ins.getClass(), src.size());
 		for (int i = 0; i < src.size(); i++) {
 			t[i] = src.get((int) i);
@@ -147,7 +147,6 @@ public class CollectionUtil {
 	public static <T> T[] setToArray(Set<T> src) {
 		if (src.size() == 0) return null;
 		T ins = getNonNull(src);
-		@SuppressWarnings("unchecked")
 		T[] t = (T[]) Array.newInstance(ins.getClass(), src.size());
 		int p = 0;
 		for (T e : src) {

@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import org.lwjgl.glfw.GLFWImage;
-
 import oolwre.image.Image;
 import oolwre.util.convert.ImageConverts;
 

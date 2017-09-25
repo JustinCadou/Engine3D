@@ -5,6 +5,8 @@ import java.nio.IntBuffer;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWImage;
 
+import oolwre.util.ReferencePointer;
+
 public class Window {
 	
 	/**Used for disable some fields like {@link #setSizeLimits(int, int, int, int)
@@ -490,28 +492,29 @@ public class Window {
 	/**Queries the {@link Window} position and size.<br>
 	 * Put <code>null</code> on a field you don't want to query.
 	 * 
-	 * @param x - The <code>int[]</code> where to store <code>x</code>,
+	 * @param x - The reference to the value <code>x</code>,
 	 * or <code>null</code> to ignore
-	 * @param y - The <code>int[]</code> where to store <code>y</code>,
+	 * @param y - The reference to the value <code>y</code>,
 	 * or <code>null</code> to ignore
-	 * @param width - The <code>int[]</code> where to store <code>width</code>,
+	 * @param width - The reference to the value <code>width</code>,
 	 * or <code>null</code> to ignore
-	 * @param height - The <code>int[]</code> where to store <code>height</code>,
+	 * @param height - The reference to the value <code>height</code>,
 	 * or <code>null</code> to ignore
 	 */
-	public void queryBounds(int[] x, int[] y, int[] width, int[] height) {
+	public void queryBounds(ReferencePointer<Integer> x, ReferencePointer<Integer> y,
+			ReferencePointer<Integer> width, ReferencePointer<Integer> height) {
 		this.check();
 		if (x != null) {
-			x[0] = this.getX();
+			x.setReference(this.getX());
 		}
 		if (y != null) {
-			y[0] = this.getY();
+			y.setReference(this.getY());
 		}
 		if (width != null) {
-			width[0] = this.width;
+			width.setReference(this.width);
 		}
 		if (height != null) {
-			height[0] = this.height;
+			height.setReference(this.height);
 		}
 	}
 	
@@ -546,28 +549,29 @@ public class Window {
 	/**Queries the {@link Window} size limits.<br>
 	 * Put <code>null</code> on a field you don't want to query.
 	 * 
-	 * @param minW - The <code>int[]</code> where to store <code>minW</code>,
+	 * @param minW - The reference to the value <code>minW</code>,
 	 * or <code>null</code> to ignore
-	 * @param minH - The <code>int[]</code> where to store <code>minH</code>,
+	 * @param minH - The reference to the value <code>minH</code>,
 	 * or <code>null</code> to ignore
-	 * @param maxW - The <code>int[]</code> where to store <code>maxW</code>,
+	 * @param maxW - The reference to the value <code>maxW</code>,
 	 * or <code>null</code> to ignore
-	 * @param maxH - The <code>int[]</code> where to store <code>maxH</code>,
+	 * @param maxH - The reference to the value <code>maxH</code>,
 	 * or <code>null</code> to ignore
 	 */
-	public void querySizeLimits(int[] minW, int[] minH, int[] maxW, int[] maxH) {
+	public void querySizeLimits(ReferencePointer<Integer> minW, ReferencePointer<Integer> minH,
+			ReferencePointer<Integer> maxW, ReferencePointer<Integer> maxH) {
 		this.check();
 		if (minW != null) {
-			minW[0] = this.minW;
+			minW.setReference(this.minW);
 		}
 		if (minH != null) {
-			minH[0] = this.minH;
+			minH.setReference(this.minH);
 		}
 		if (maxW != null) {
-			maxW[0] = this.maxW;
+			maxW.setReference(this.maxW);
 		}
 		if (maxH != null) {
-			maxH[0] = this.maxH;
+			maxH.setReference(this.maxH);
 		}
 	}
 	
@@ -592,18 +596,18 @@ public class Window {
 	/**Queries the {@link Window} aspect ratio limit.<br>
 	 * Put <code>null</code> on a field you don't want to query.
 	 * 
-	 * @param num - The <code>int[]</code> where to store <code>num</code>,
+	 * @param num - The reference to the value <code>num</code>,
 	 * or <code>null</code> to ignore
-	 * @param denum - The <code>int[]</code> where to store <code>denum</code>,
+	 * @param denum - The reference to the value <code>denum</code>,
 	 * or <code>null</code> to ignore
 	 */
-	public void queryAspectRatio(int[] num, int[] denum) {
+	public void queryAspectRatio(ReferencePointer<Integer> num, ReferencePointer<Integer> denum) {
 		this.check();
 		if (num != null) {
-			num[0] = this.aspectRatioNum;
+			num.setReference(this.aspectRatioNum);
 		}
 		if (denum != null) {
-			denum[0] = this.aspectRatioDenum;
+			denum.setReference(this.aspectRatioDenum);
 		}
 	}
 	
