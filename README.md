@@ -1,6 +1,4 @@
-**OOLWRE**
-
-All Right Reserved.
+# OOLWRE
 
 --------------------
 
