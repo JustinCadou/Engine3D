@@ -17,11 +17,11 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GL32;
 import org.lwjgl.opengl.GL33;
 import org.lwjgl.opengl.GL40;
 import org.lwjgl.opengl.GL41;
 import oolwre.CapabilityProvider;
+import oolwre.render.data.shader.Shader;
 
 /**The <code>DataProvider</code> class is used to allocate resources
  * using the correct extensions if the OpenGL versions required are not
@@ -351,7 +351,7 @@ public class DataProvider {
 	}
 	
 	/**Deletes <code>n</code> used program name. <code>n</code> is marked
-	 * <i>unused</i> and may be returned once again by {@link #genTextures()}.
+	 * <i>unused</i> and may be returned once again by {@link #genProgram()}.
 	 * If it was currently active, it is unactivated.
 	 * 
 	 * @param program - <code>n</code>
@@ -367,26 +367,26 @@ public class DataProvider {
 	 * then marked <i>used</i> and wont be returned until the next call of
 	 * {@link #deleteShader(int) deleteShader(n)}.
 	 * 
-	 * @param type - The {@link ShaderType}
+	 * @param type - The {@link Shader.Type}
 	 */
-	public int genShader(ShaderType type) {
+	public int genShader(Shader.Type type) {
 		int shader = this.sgenShader(type);
 		this.shaders.add(shader);
 		return shader;
 	}
 	
 	/**Puts <code>n</code> to <code>shaders</code>, where <code><i>n</i></code> is
-	 * the returned value by {@link #genShader()}.
+	 * the returned value by {@link #genShader(Shader.Type)}.
 	 * 
 	 * @param shaders - Where to put <code>n</code>
-	 * @param type - The {@link ShaderType}
+	 * @param type - The {@link Shader.Type}
 	 */
-	public void genShader(IntBuffer shaders, ShaderType type) {
+	public void genShader(IntBuffer shaders, Shader.Type type) {
 		shaders.put(this.genShader(type));
 	}
 	
 	/**Deletes <code>n</code> used shader name. <code>n</code> is marked
-	 * <i>unused</i> and may be returned once again by {@link #genTextures()}.
+	 * <i>unused</i> and may be returned once again by {@link #genShader(Shader.Type)}.
 	 * If it was attached to a program, it is unattached from it.
 	 * 
 	 * @param shader - <code>n</code>
@@ -598,7 +598,7 @@ public class DataProvider {
 	 * @param type
 	 * @param strings
 	 */
-	public int genShaderProgramv(ShaderType type, CharSequence... strings) {
+	public int genShaderProgramv(Shader.Type type, CharSequence... strings) {
 		int prog = this.sgenShaderProgramv(type, strings);
 		this.programs.add(prog);
 		return prog;
@@ -611,7 +611,7 @@ public class DataProvider {
 	 * @param type - The {@link ShaderType}
 	 * @param strings - The pointer to the shader program source code
 	 */
-	public void genShaderProgramv(IntBuffer programs, ShaderType type, CharSequence... strings) {
+	public void genShaderProgramv(IntBuffer programs, Shader.Type type, CharSequence... strings) {
 		programs.put(this.genShaderProgramv(type, strings));
 	}
 	
@@ -695,13 +695,13 @@ public class DataProvider {
 		}
 	}
 	
-	/**Unrecommended version of {@link #genShader(ShaderType)}.
+	/**Unrecommended version of {@link #genShader(Shader.Type)}.
 	 */
-	public int sgenShader(ShaderType type) {
+	public int sgenShader(Shader.Type type) {
 		if (this.provider.isOpenGLVersionSupported(20)) {
-			return GL20.glCreateShader(type.value);
+			return GL20.glCreateShader(type.glValue());
 		} else {
-			return ARBShaderObjects.glCreateShaderObjectARB(type.value);
+			return ARBShaderObjects.glCreateShaderObjectARB(type.glValue());
 		}
 	}
 	
@@ -836,13 +836,13 @@ public class DataProvider {
 		}
 	}
 	
-	/**Unrecommended version of {@link #genShaderProgramv(ShaderType, CharSequence...)}.
+	/**Unrecommended version of {@link #genShaderProgramv(Shader.Type, CharSequence...)}.
 	 */
-	public int sgenShaderProgramv(ShaderType type, CharSequence... strings) {
+	public int sgenShaderProgramv(Shader.Type type, CharSequence... strings) {
 		if (this.provider.isOpenGLVersionSupported(41)) {
-			return GL41.glCreateShaderProgramv(type.value, strings);
+			return GL41.glCreateShaderProgramv(type.glValue(), strings);
 		} else {
-			return ARBSeparateShaderObjects.glCreateShaderProgramv(type.value, strings);
+			return ARBSeparateShaderObjects.glCreateShaderProgramv(type.glValue(), strings);
 		}
 	}
 	
@@ -853,51 +853,5 @@ public class DataProvider {
 	 */
 	public static DataProvider get() {
 		return threads.get(Thread.currentThread());
-	}
-	
-	/**The possible shader object type.<br><br>
-	 * {@link #VERTEX}<br>
-	 * {@link #FRAGMENT}<br>
-	 * {@link #GEOMETRY}<br>
-	 * {@link #TESS_CONTROL}<br>
-	 * {@link #TESS_EVALUATION}
-	 */
-	public static enum ShaderType {
-		
-		/** OpenGL 2.0 {@link GL20#GL_VERTEX_SHADER GL_VERTEX_SHADER} */
-		VERTEX(GL20.GL_VERTEX_SHADER),
-		
-		/** OpenGL 2.0 {@link GL20#GL_FRAGMENT_SHADER GL_FRAGMENT_SHADER} */
-		FRAGMENT(GL20.GL_FRAGMENT_SHADER),
-		
-		/** OpenGL 3.2 {@link GL32#GL_GEOMETRY_SHADER GL_GEOMETRY_SHADER} */
-		GEOMETRY(GL32.GL_GEOMETRY_SHADER),
-		
-		/** OpenGL 4.0 {@link GL40#GL_TESS_CONTROL_SHADER GL_TESS_CONTROL_SHADER} */
-		TESS_CONTROL(GL40.GL_TESS_CONTROL_SHADER),
-		
-		/** OpenGL 4.0 {@link GL40#GL_TESS_EVALUATION_SHADER GL_TESS_EVALUATION_SHADER} */
-		TESS_EVALUATION(GL40.GL_TESS_EVALUATION_SHADER);
-		
-		private int value;
-		
-		ShaderType(int value) {
-			this.value = value;
-		}
-		
-		/** Returns the GLEnum value represented by the {@link ShaderType} */
-		public int glValue() {
-			return this.value;
-		}
-		
-		/** Returns the {@link ShaderType} represented by the GLEnum value */
-		public static ShaderType forGlValue(int glValue) {
-			for (ShaderType type : values()) {
-				if (type.value == glValue) {
-					return type;
-				}
-			}
-			return null;
-		}
 	}
 }

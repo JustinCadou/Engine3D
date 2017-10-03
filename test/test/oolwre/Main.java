@@ -7,7 +7,9 @@ import oolwre.OOLWRE;
 import oolwre.OOLWREException;
 import oolwre.Platform;
 import oolwre.Window;
+import oolwre.WindowEventsHandler;
 import oolwre.WindowHints;
+import oolwre.event.KeyboardListener;
 import oolwre.render.data.DataProvider;
 
 public class Main {
@@ -44,6 +46,10 @@ public class Main {
 		window.setVisible(true);
 		window.makeContextCurrent();
 		
+		//Create event handlers
+		WindowEventsHandler eventHandler = window.getEventsHandler();
+		eventHandler.addKeyboardListener(keyListener());
+		
 		//Create the CapabilityProvider
 		CapabilityProvider provider = CapabilityProvider.create(true);
 		DataProvider dataProvider = new DataProvider(provider);
@@ -66,5 +72,23 @@ public class Main {
 		window.destroy();
 		OOLWRE.terminate();
 		System.out.println("Closing successfully!");
+	}
+	
+	/**Creates the KeyboardListener*/
+	public static KeyboardListener keyListener() {
+		return new KeyboardListener() {
+			
+			public void keyRepeat(int key, int scancode, int mods) {
+				System.out.println("Repeated " + KeyboardListener.Key.forGlfwValue(key));
+			}
+			
+			public void keyReleased(int key, int scancode, int mods) {
+				System.out.println("Released " + KeyboardListener.Key.forGlfwValue(key));
+			}
+			
+			public void keyPressed(int key, int scancode, int mods) {
+				System.out.println("Pressed " + KeyboardListener.Key.forGlfwValue(key));
+			}
+		};
 	}
 }

@@ -3,6 +3,8 @@ package oolwre;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
+/**The <code>ExceptionQueue</code> is used to post and poll {@link Throwable}s.
+ */
 public class ExceptionQueue {
 	
 	private static Queue<OOLWREException> queue;

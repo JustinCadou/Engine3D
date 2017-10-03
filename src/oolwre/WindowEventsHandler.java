@@ -6,7 +6,6 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWScrollCallback;
-
 import oolwre.event.KeyboardListener;
 import oolwre.event.MouseButtonListener;
 import oolwre.event.ScrollListener;
