@@ -9,7 +9,7 @@ public class OOLWRE {
 	private OOLWRE() {}
 	
 	static {
-		System.setProperty("oolwre.version", "pre-alpha 0.0.1");
+		System.setProperty("oolwre.version", "pre-alpha5");
 		System.setProperty("oolwre.version.details", "LWJGL version:\t" + Version.getVersion() +
 				";GLFW version:\t" + GLFW.glfwGetVersionString() + ";Java version:\t" +
 				System.getProperty("java.version"));
