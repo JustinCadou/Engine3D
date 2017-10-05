@@ -1,3 +1,30 @@
+/*Copyright (c) 2017 Fantastic Fantasy All rights reserved.
+ *
+ * Permission to use, copy, modify and/or redistribute in source or binary form
+ * is hereby granted, free of charge, subject to the following conditions:
+ *
+ * - Redistribution of source code shall include the above copyright notice,
+ *  this list of conditions and the following disclaimer.
+ *
+ * - Redistribution in binary form shall include the above copyright notice,
+ *  this list of conditions and the following disclaimer in the documentation
+ *  and/or other materials provided with the distribution.
+ *
+ * - Neither the name Object Oriented Lightweight Render Engine nor the names
+ *  of its contributors may be used to endorse or promote products derived
+ *  from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package oolwre;
 
 import java.nio.IntBuffer;
@@ -11,7 +38,7 @@ import oolwre.util.convert.ImageConverts;
  * cursor. It is used to change its appearance
  * and position.
  */
-public final class Cursor {
+public final class WindowCursor {
 	
 	protected Window owner;
 	protected long name;
@@ -19,14 +46,14 @@ public final class Cursor {
 	private int xhot, yhot;
 	
 	/**Constructor*/
-	protected Cursor(Window owner) {
+	protected WindowCursor(Window owner) {
 		this.owner = owner;
 		this.name = GLFW.glfwCreateStandardCursor(GLFW.GLFW_ARROW_CURSOR);
 		GLFW.glfwSetCursor(this.owner.name, this.name);
 	}
 	
 	/**Sets the <code>x</code> coordinate of the
-	 * {@link Cursor} position.
+	 * {@link WindowCursor} position.
 	 * 
 	 * @param x - The <code>x</code> coord
 	 */
@@ -35,7 +62,7 @@ public final class Cursor {
 	}
 
 	/**Sets the <code>y</code> coordinate of the
-	 * {@link Cursor} position.
+	 * {@link WindowCursor} position.
 	 * 
 	 * @param y - The <code>y</code> coord
 	 */
@@ -43,7 +70,7 @@ public final class Cursor {
 		this.setPosition(this.getX(), y);
 	}
 	
-	/**Sets the {@link Cursor} position to the specified
+	/**Sets the {@link WindowCursor} position to the specified
 	 * location.<br>
 	 * <b>See</b> {@link GLFW#glfwSetCursorPos(long, double, double)
 	 * glfwSetCursorPos()}
@@ -55,7 +82,7 @@ public final class Cursor {
 		GLFW.glfwSetCursorPos(this.owner.name, x, y);
 	}
 	
-	/**Creates a new {@link Cursor} appearance with the specified parameters.
+	/**Creates a new {@link WindowCursor} appearance with the specified parameters.
 	 * 
 	 * @param image - The new image
 	 * @param xhot - The hotspot's <code>x</code> coord
@@ -68,7 +95,7 @@ public final class Cursor {
 		this.updateCursor();
 	}
 	
-	/**Sets the appearance of the {@link Cursor} using
+	/**Sets the appearance of the {@link WindowCursor} using
 	 * an {@link Image}.<br><br>
 	 * <b>Note:</b> This will only work when the cursor
 	 * is hover the {@link Window}!<br><br>
@@ -82,7 +109,7 @@ public final class Cursor {
 		this.updateCursor();
 	}
 	
-	/**Sets the {@link Cursor}'s hotspot.<br>
+	/**Sets the {@link WindowCursor}'s hotspot.<br>
 	 * <b>See</b> {@link GLFW#glfwCreateCursor(org.lwjgl.glfw.GLFWImage,
 	 * int, int) glfwCreateCursor()}
 	 * 
@@ -95,7 +122,7 @@ public final class Cursor {
 		this.updateCursor();
 	}
 
-	/**Sets the {@link Cursor}'s hotspot.<br>
+	/**Sets the {@link WindowCursor}'s hotspot.<br>
 	 * <b>See</b> {@link GLFW#glfwCreateCursor(org.lwjgl.glfw.GLFWImage,
 	 * int, int) glfwCreateCursor()}
 	 * 
@@ -106,7 +133,7 @@ public final class Cursor {
 		this.updateCursor();
 	}
 	
-	/**Sets the {@link Cursor}'s hotspot.<br>
+	/**Sets the {@link WindowCursor}'s hotspot.<br>
 	 * <b>See</b> {@link GLFW#glfwCreateCursor(org.lwjgl.glfw.GLFWImage,
 	 * int, int) glfwCreateCursor()}
 	 * 
@@ -117,7 +144,7 @@ public final class Cursor {
 		this.updateCursor();
 	}
 	
-	/**Sets the {@link Cursor} input {@link Mode} of the owner {@link Window}.
+	/**Sets the {@link WindowCursor} input {@link Mode} of the owner {@link Window}.
 	 * 
 	 * @param mode - The cursor {@link Mode}
 	 */
@@ -125,7 +152,7 @@ public final class Cursor {
 		GLFW.glfwSetInputMode(this.owner.name, GLFW.GLFW_CURSOR, mode.value);
 	}
 	
-	/**Queries the current position of the {@link Cursor}.
+	/**Queries the current position of the {@link WindowCursor}.
 	 * 
 	 * @param x - Where to store <code>x</code>, or
 	 * <code>null</code> to ignore
@@ -143,7 +170,7 @@ public final class Cursor {
 		}
 	}
 
-	/**Queries the current position of the {@link Cursor}.
+	/**Queries the current position of the {@link WindowCursor}.
 	 * 
 	 * @param x - Where to store <code>x</code>, or
 	 * <code>null</code> to ignore
@@ -181,7 +208,7 @@ public final class Cursor {
 		return y[0];
 	}
 	
-	/**Returns the appearance of the {@link Cursor}.
+	/**Returns the appearance of the {@link WindowCursor}.
 	 * 
 	 * @return The cursor's {@link Image}.
 	 */
@@ -189,7 +216,7 @@ public final class Cursor {
 		return this.image;
 	}
 	
-	/**Queries the hotspot of the {@link Cursor}.
+	/**Queries the hotspot of the {@link WindowCursor}.
 	 * 
 	 * @param x - Where to store <code>xhot</code>, or
 	 * <code>null</code> to ignore
@@ -205,7 +232,7 @@ public final class Cursor {
 		}
 	}
 
-	/**Queries the hotspot of the {@link Cursor}.
+	/**Queries the hotspot of the {@link WindowCursor}.
 	 * 
 	 * @param x - Where to store <code>xhot</code>, or
 	 * <code>null</code> to ignore
@@ -221,7 +248,7 @@ public final class Cursor {
 		}
 	}
 	
-	/**Returns the <code>x</code> coord of the {@link Cursor}'s
+	/**Returns the <code>x</code> coord of the {@link WindowCursor}'s
 	 * hotspot.
 	 * 
 	 * @return The hotspot's <code>x</code> coord
@@ -230,7 +257,7 @@ public final class Cursor {
 		return this.xhot;
 	}
 	
-	/**Returns the <code>y</code> coord of the {@link Cursor}'s
+	/**Returns the <code>y</code> coord of the {@link WindowCursor}'s
 	 * hotspot.
 	 * 
 	 * @return The hotspot's <code>y</code> coord
@@ -239,7 +266,7 @@ public final class Cursor {
 		return this.yhot;
 	}
 	
-	/**Returns the current {@link Cursor} input {@link Mode}
+	/**Returns the current {@link WindowCursor} input {@link Mode}
 	 * of the owner {@link Window}.
 	 * 
 	 * @return The cursor {@link Mode}

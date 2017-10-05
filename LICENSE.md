@@ -2,9 +2,9 @@ Copyright (c) 2017 Fantastic Fantasy All rights reserved.
 
 Permission to use, copy, modify and/or redistribute in source or binary form is hereby granted, free of charge, subject to the following conditions:
 
-- Redistribution of source code shall include the above copyright notice, this list of conditions and the following disclamer.
+- Redistribution of source code shall include the above copyright notice, this list of conditions and the following disclaimer.
 
-- Redistribution in binary form shall include the above copyright notice, this list of conditions and the following disclamer in the documentation and/or other materials provided with the distribution.
+- Redistribution in binary form shall include the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 
 - Neither the name Object Oriented Lightweight Render Engine nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 

@@ -5,5 +5,4 @@
 Links:
 	https://www.lwjgl.org
 
-
 ***PS***: OOLWRE means **O**bject-**O**riented **L**ight **W**eight **R**ender **E**ngine
