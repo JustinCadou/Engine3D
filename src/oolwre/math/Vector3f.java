@@ -33,7 +33,9 @@ import java.nio.BufferUnderflowException;
 import java.nio.FloatBuffer;
 import oolwre.OOLWRE;
 
-/**A <code>Vector3f</code> represents a 3D vector of floats.
+/**A <code>Vector3f</code> represents a 3D vector of floats.<br><br>
+ * Passing a <code>null</code> value to any method will result in a
+ * {@link NullPointerException} unless otherwise noted.
  */
 public class Vector3f implements Serializable {
 	
