@@ -21,20 +21,21 @@ package test.oolwre;
 
 import java.io.IOException;
 import java.io.InputStream;
-import oolwre.CapabilityProvider;
-import oolwre.ExceptionQueue;
-import oolwre.Monitor;
-import oolwre.OOLWRE;
-import oolwre.OOLWREException;
-import oolwre.Platform;
-import oolwre.Window;
-import oolwre.WindowEventsHandler;
-import oolwre.WindowHints;
-import oolwre.WindowIcon;
-import oolwre.event.KeyboardListener;
-import oolwre.image.Image;
-import oolwre.io.ImageIO;
-import oolwre.render.data.DataProvider;
+
+import net.fantasticfantasy.oolwre.CapabilityProvider;
+import net.fantasticfantasy.oolwre.ExceptionQueue;
+import net.fantasticfantasy.oolwre.Monitor;
+import net.fantasticfantasy.oolwre.OOLWRE;
+import net.fantasticfantasy.oolwre.OOLWREException;
+import net.fantasticfantasy.oolwre.Platform;
+import net.fantasticfantasy.oolwre.Window;
+import net.fantasticfantasy.oolwre.WindowEventsHandler;
+import net.fantasticfantasy.oolwre.WindowHints;
+import net.fantasticfantasy.oolwre.WindowIcon;
+import net.fantasticfantasy.oolwre.event.KeyboardListener;
+import net.fantasticfantasy.oolwre.image.Image;
+import net.fantasticfantasy.oolwre.io.ImageIO;
+import net.fantasticfantasy.oolwre.render.data.DataProvider;
 
 public class Main {
 	
